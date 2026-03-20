@@ -36,14 +36,16 @@ Order by total_year DESC
 
 --Szállítónkénti számla darabszám és átlagos számlaérték
 
-Select
-    distinct account,
-    count(account) as count_of_invoices,
-    Round(avg(amount_local_curr), 2) as average_invoice_amount
-From invoices_raw
-Group by account
-Order by count_of_invoices DESC
-LIMIT 20
+SELECT
+    suppliers.supplier_name,
+    COUNT(invoices_raw.account)         AS count_of_invoices,
+    ROUND(AVG(amount_local_curr), 2)    AS average_invoice_amount
+FROM invoices_raw
+INNER JOIN suppliers
+    ON suppliers.supplier_code = invoices_raw.account
+GROUP BY invoices_raw.account, suppliers.supplier_name
+ORDER BY count_of_invoices DESC
+LIMIT 20;
 
 --Szállítók fizetési feltétel szerinti megoszlása
 SELECT
