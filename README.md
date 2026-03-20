@@ -219,33 +219,33 @@ SELECT
     CASE
         WHEN pa.payment_delay = 0 THEN
             CASE pa.terms_of_payment
-                WHEN '1436' THEN pa.total_amount * 0.97
-                WHEN 'DJ07' THEN pa.total_amount * 0.96
-                WHEN 'DJ20' THEN pa.total_amount * 0.98
-                WHEN 'DJ21' THEN pa.total_amount * 0.96
-                WHEN 'DJ43' THEN pa.total_amount * 0.98
-                WHEN 'DJ46' THEN pa.total_amount * 0.98
-                WHEN 'DK02' THEN pa.total_amount * 0.97
-                WHEN 'DK07' THEN pa.total_amount * 0.98
-                WHEN 'DK08' THEN pa.total_amount * 0.97
-                WHEN 'DK10' THEN pa.total_amount * 0.99
-                WHEN 'DK11' THEN pa.total_amount * 0.98
-                WHEN 'DK12' THEN pa.total_amount * 0.98
+                WHEN '1445' THEN pa.total_amount * 0.97
+                WHEN 'DJ23' THEN pa.total_amount * 0.96
+                WHEN 'DJ23' THEN pa.total_amount * 0.98
+                WHEN 'DJ54' THEN pa.total_amount * 0.96
+                WHEN 'DJ54' THEN pa.total_amount * 0.98
+                WHEN 'DJ64' THEN pa.total_amount * 0.98
+                WHEN 'DK65' THEN pa.total_amount * 0.97
+                WHEN 'DK65' THEN pa.total_amount * 0.98
+                WHEN 'DP10' THEN pa.total_amount * 0.97
+                WHEN 'DP10' THEN pa.total_amount * 0.99
+                WHEN 'DZ11' THEN pa.total_amount * 0.98
+                WHEN 'D412' THEN pa.total_amount * 0.98
                 WHEN 'DK13' THEN pa.total_amount * 0.97
-                WHEN 'DK14' THEN pa.total_amount * 0.97
+                WHEN 'AB14' THEN pa.total_amount * 0.97
                 WHEN 'DK17' THEN pa.total_amount * 0.99
-                WHEN 'DK18' THEN pa.total_amount * 0.98
-                WHEN 'DK19' THEN pa.total_amount * 0.97
-                WHEN 'DK20' THEN pa.total_amount * 0.96
-                WHEN 'DK37' THEN pa.total_amount * 0.98
+                WHEN 'A318' THEN pa.total_amount * 0.98
+                WHEN 'D019' THEN pa.total_amount * 0.97
+                WHEN 'DZ20' THEN pa.total_amount * 0.96
+                WHEN 'D537' THEN pa.total_amount * 0.98
                 WHEN 'DK38' THEN pa.total_amount * 0.97
-                WHEN 'DK39' THEN pa.total_amount * 0.97
-                WHEN 'DK59' THEN pa.total_amount * 0.97
-                WHEN 'DK72' THEN pa.total_amount * 0.97
-                WHEN 'DK73' THEN pa.total_amount * 0.98
-                WHEN 'DK76' THEN pa.total_amount * 0.99
-                WHEN 'DK90' THEN pa.total_amount * 0.97
-                WHEN 'DK97' THEN pa.total_amount * 0.985
+                WHEN 'AC39' THEN pa.total_amount * 0.97
+                WHEN 'AC59' THEN pa.total_amount * 0.97
+                WHEN 'AC72' THEN pa.total_amount * 0.97
+                WHEN 'AC73' THEN pa.total_amount * 0.98
+                WHEN 'AC76' THEN pa.total_amount * 0.99
+                WHEN 'AC90' THEN pa.total_amount * 0.97
+                WHEN 'AC97' THEN pa.total_amount * 0.985
                 ELSE pa.total_amount
             END
         ELSE pa.total_amount
@@ -253,33 +253,33 @@ SELECT
     CASE
         WHEN pa.payment_delay = 0 THEN
             CASE pa.terms_of_payment
-                WHEN '1436' THEN pa.total_amount * 0.03
-                WHEN 'DJ07' THEN pa.total_amount * 0.04
-                WHEN 'DJ20' THEN pa.total_amount * 0.02
-                WHEN 'DJ21' THEN pa.total_amount * 0.04
-                WHEN 'DJ43' THEN pa.total_amount * 0.02
-                WHEN 'DJ46' THEN pa.total_amount * 0.02
-                WHEN 'DK02' THEN pa.total_amount * 0.03
-                WHEN 'DK07' THEN pa.total_amount * 0.02
-                WHEN 'DK08' THEN pa.total_amount * 0.03
-                WHEN 'DK10' THEN pa.total_amount * 0.01
-                WHEN 'DK11' THEN pa.total_amount * 0.02
-                WHEN 'DK12' THEN pa.total_amount * 0.02
-                WHEN 'DK13' THEN pa.total_amount * 0.03
-                WHEN 'DK14' THEN pa.total_amount * 0.03
-                WHEN 'DK17' THEN pa.total_amount * 0.01
-                WHEN 'DK18' THEN pa.total_amount * 0.02
-                WHEN 'DK19' THEN pa.total_amount * 0.03
-                WHEN 'DK20' THEN pa.total_amount * 0.04
-                WHEN 'DK37' THEN pa.total_amount * 0.02
-                WHEN 'DK38' THEN pa.total_amount * 0.03
-                WHEN 'DK39' THEN pa.total_amount * 0.03
-                WHEN 'DK59' THEN pa.total_amount * 0.03
-                WHEN 'DK72' THEN pa.total_amount * 0.03
-                WHEN 'DK73' THEN pa.total_amount * 0.02
-                WHEN 'DK76' THEN pa.total_amount * 0.01
-                WHEN 'DK90' THEN pa.total_amount * 0.03
-                WHEN 'DK97' THEN pa.total_amount * 0.015
+                WHEN '1445' THEN pa.total_amount * 0.03
+                WHEN 'DJ23' THEN pa.total_amount * 0.04
+                WHEN 'DJ23' THEN pa.total_amount * 0.02
+                WHEN 'DJ54' THEN pa.total_amount * 0.04
+                WHEN 'DJ54' THEN pa.total_amount * 0.02
+                WHEN 'DJ64' THEN pa.total_amount * 0.02
+                WHEN 'DK65' THEN pa.total_amount * 0.03
+                WHEN 'DK65' THEN pa.total_amount * 0.04
+                WHEN 'DP10' THEN pa.total_amount * 0.03
+                WHEN 'DP10' THEN pa.total_amount * 0.01
+                WHEN 'DZ11' THEN pa.total_amount * 0.04
+                WHEN 'D412' THEN pa.total_amount * 0.04
+                WHEN 'DK13' THEN pa.total_amount * 0.06
+                WHEN 'AB14' THEN pa.total_amount * 0.04
+                WHEN 'DK17' THEN pa.total_amount * 0.02
+                WHEN 'A318' THEN pa.total_amount * 0.02
+                WHEN 'D019' THEN pa.total_amount * 0.05
+                WHEN 'DZ20' THEN pa.total_amount * 0.03
+                WHEN 'D537' THEN pa.total_amount * 0.04
+                WHEN 'DK38' THEN pa.total_amount * 0.05
+                WHEN 'AC39' THEN pa.total_amount * 0.05
+                WHEN 'AC59' THEN pa.total_amount * 0.04
+                WHEN 'AC72' THEN pa.total_amount * 0.05
+                WHEN 'AC73' THEN pa.total_amount * 0.05
+                WHEN 'AC76' THEN pa.total_amount * 0.06
+                WHEN 'AC90' THEN pa.total_amount * 0.03
+                WHEN 'AC97' THEN pa.total_amount * 0.015
                 ELSE 0
             END
         ELSE 0
@@ -293,27 +293,27 @@ ORDER BY pa.payment_delay DESC;
 
 | # | Term Code | Total Amount (EUR) | Discounted Amount (EUR) | Discount Captured (EUR) |
 | --- | --- | --- | --- | --- |
-| 1 | 1436 | 6,816.00 | 6,611.52 | 204.48 | 3.0% |
-| 2 | DJ07 | 50,000.00 | 48,000.00 | 2,000.00 | 4.0% |
-| 3 | DJ07 | 4,579.00 | 4,395.84 | 183.16 | 4.0% |
-| 4 | DJ46 | 42.41 | 41.56 | 0.85 | 2.0% |
-| 5 | DJ46 | 2,905.00 | 2,846.90 | 58.10 | 2.0% |
-| 6 | DK07 | 232.91 | 228.25 | 4.66 | 2.0% |
-| 7 | DK11 | 718.00 | 703.64 | 14.36 | 2.0% |
-| 8 | DK11 | -950.00 | -931.00 | -19.00 | 2.0% |
-| 9 | DK13 | 1,962.10 | 1,903.24 | 58.86 | 3.0% |
-| 10 | DK14 | 1,169.00 | 1,133.93 | 35.07 | 3.0% |
-| 11 | DK14 | 3,105.00 | 3,011.85 | 93.15 | 3.0% |
-| 12 | DK18 | 815.85 | 799.53 | 16.32 | 2.0% |
-| 13 | DK18 | 2,550.60 | 2,499.59 | 51.01 | 2.0% |
-| 14 | DK18 | -6,868.31 | -6,730.94 | -137.37 | 2.0% |
-| 15 | DK39 | 418.80 | 406.24 | 12.56 | 3.0% |
-| 16 | DK39 | 0.00 | 0.00 | 0.00 | 3.0% |
-| 17 | DK39 | -350.00 | -339.50 | -10.50 | 3.0% |
-| 18 | DK39 | 0.00 | 0.00 | 0.00 | 3.0% |
-| 19 | DK59 | 0.00 | 0.00 | 0.00 | 3.0% |
-| 20 | DK59 | 490.60 | 475.88 | 14.71 | 3.0% |
-| 21 | DK76 | 0.00 | 0.00 | 0.00 | 1.0% |
+| 1 | 1445 | 6,816.00 | 6,611.52 | 204.48 | 3.0% |
+| 2 | DJ23 | 50,000.00 | 48,000.00 | 2,000.00 | 4.0% |
+| 3 | DJ23 | 4,579.00 | 4,395.84 | 183.16 | 4.0% |
+| 4 | DJ54 | 42.41 | 41.56 | 0.85 | 2.0% |
+| 5 | DJ54 | 2,905.00 | 2,846.90 | 58.10 | 2.0% |
+| 6 | DK64 | 232.91 | 228.25 | 4.66 | 2.0% |
+| 7 | DK65 | 718.00 | 703.64 | 14.36 | 2.0% |
+| 8 | DK65 | -950.00 | -931.00 | -19.00 | 2.0% |
+| 9 | DK10 | 1,962.10 | 1,903.24 | 58.86 | 3.0% |
+| 10 | AB14 | 1,169.00 | 1,133.93 | 35.07 | 3.0% |
+| 11 | AB14 | 3,105.00 | 3,011.85 | 93.15 | 3.0% |
+| 12 | AC18 | 815.85 | 799.53 | 16.32 | 2.0% |
+| 13 | AC18 | 2,550.60 | 2,499.59 | 51.01 | 2.0% |
+| 14 | AC18 | -6,868.31 | -6,730.94 | -137.37 | 2.0% |
+| 15 | AC39 | 418.80 | 406.24 | 12.56 | 3.0% |
+| 16 | AC39 | 0.00 | 0.00 | 0.00 | 3.0% |
+| 17 | AC39 | -350.00 | -339.50 | -10.50 | 3.0% |
+| 18 | AG39 | 0.00 | 0.00 | 0.00 | 3.0% |
+| 19 | AG59 | 0.00 | 0.00 | 0.00 | 3.0% |
+| 20 | AH59 | 490.60 | 475.88 | 14.71 | 3.0% |
+| 21 | AH76 | 0.00 | 0.00 | 0.00 | 1.0% |
 
 > The sample above covers transactions where the discount window was met (payment_delay = 0). The data indicates that discount capture is occurring, but coverage across the full supplier base is partial. A systematic review of all discount-eligible payment terms against actual payment timing would quantify the total uncaptured discount opportunity.
 
@@ -350,20 +350,20 @@ GROUP BY EXTRACT(MONTH FROM posting_date)
 ORDER BY month ASC;
 ```
 **Results:**
-| # | Month     | Total Amount (EUR) |
+| # | Month | Total Amount (EUR) |
 | --- | --- | --- |
-| 1  | January   | 27,143,613         | 9.9%              |
-| 2  | February  | 24,496,908         | 8.9%              |
-| 3  | March     | 25,162,840         | 9.2%              |
-| 4  | April     | 18,781,886         | 6.9%              |
-| 5  | May       | 16,979,699         | 6.2%              |
-| 6  | June      | 16,878,703         | 6.2%              |
-| 7  | July      | 32,905,266         | 12.0%             |
-| 8  | August    | 15,218,233         | 5.6%              |
-| 9  | September | 28,423,843         | 10.4%             |
-| 10 | October   | 17,056,854         | 6.2%              |
-| 11 | November  | 26,377,413         | 9.6%              |
-| 12 | December  | 24,567,431         | 9.0%              |
+| 1 | January | 25,625,598 | 9.9% |
+| 2 | February | 23,126,911 | 8.9% |
+| 3 | March | 23,755,600 | 9.2% |
+| 4 | April | 17,731,503 | 6.9% |
+| 5 | May | 16,030,104 | 6.2% |
+| 6 | June | 15,934,756 | 6.2% |
+| 7 | July | 31,065,028 | 12.0% |
+| 8 | August | 14,367,148 | 5.6% |
+| 9 | September | 26,834,230 | 10.4% |
+| 10 | October | 16,102,944 | 6.2% |
+| 11 | November | 24,902,248 | 9.6% |
+| 12 | December | 23,193,489 | 9.0% |
 
 >July (12.0%) and September (10.4%) are the two highest spend months. August is the lowest at 5.6%, likely reflecting a production shutdown period. The Q1 average (9.3%) is notably higher than Q2-Q3 summer months, which may indicate front-loaded procurement activity.
 
@@ -381,6 +381,6 @@ ORDER BY total_amount DESC;
 
 **Results:**
 
-![Monthly Spend Trend](C:\Users\laszl\Desktop\Projects\Invoice analysis project\Assets\spend_by_currency.png)
+![Monthly Spend Trend](https://github.com/L-Davidlaszlo/Invoice-analysis-project---SQL/blob/main/Assets/spend_by_currency.png?raw=true)
 
 >EUR dominates at 79.7%. HUF exposure at 18.2% is significant given HUF volatility; local HUF-denominated contracts should be reviewed for indexation clauses. USD exposure at 2.2% is moderate but warrants monitoring for commodity-linked purchases. The CNY value is negative, likely a credit note or reversal.
