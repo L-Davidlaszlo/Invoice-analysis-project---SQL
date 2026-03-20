@@ -568,7 +568,7 @@ LIMIT 20;
 
 **Results:**
 
-![Payment Terms Distribution]()
+![Payment Terms Distribution](https://github.com/L-Davidlaszlo/Invoice-analysis-project---SQL/blob/main/Assets/top10_payment_terms.png?raw=true)
 
 >Net 30 and Net 60 together account for the large majority of transactions. The presence of "Due immediately" as the 3rd largest term warrants review, as it puts pressure on AP processing speed. Only two terms in the top 20 carry a discount clause, indicating limited early payment discount utilization across the portfolio.
 
