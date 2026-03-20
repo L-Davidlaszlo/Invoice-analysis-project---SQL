@@ -384,3 +384,259 @@ ORDER BY total_amount DESC;
 ![Monthly Spend Trend](https://github.com/L-Davidlaszlo/Invoice-analysis-project---SQL/blob/main/Assets/spend_by_currency.png?raw=true)
 
 >EUR dominates at 79.7%. HUF exposure at 18.2% is significant given HUF volatility; local HUF-denominated contracts should be reviewed for indexation clauses. USD exposure at 2.2% is moderate but warrants monitoring for commodity-linked purchases. The CNY value is negative, likely a credit note or reversal.
+
+## 4. Area of Analysis: Invoice processong analysis
+This section analyzes invoice processing efficiency at the user level, covering average processing time per user, invoice volume and total value handled, and a combined view to identify bottlenecks or workload imbalances across the AP team.
+
+### Average Processing Time
+Objective: identify users with high average processing times to detect bottlenecks, training needs, or system-related delays in the invoice posting workflow.
+
+```SQL
+SELECT
+    user_name,
+    ROUND(AVG(clearing_date - posting_date), 2) AS avg_processing_time
+FROM invoices_raw
+WHERE clearing_date IS NOT NULL AND posting_date IS NOT NULL
+GROUP BY user_name
+ORDER BY avg_processing_time DESC;
+```
+**Results:**
+
+### Average Processing Time per User
+
+| # | User | Avg. Processing Time (days) |
+| --- | --- | --- |
+| 1 | AP.Miller | 132.51 |
+| 2 | AP.Johnson | 60.84 |
+| 3 | AP.Wagner | 44.91 |
+| 4 | AP.Weber | 49.68 |
+| 5 | AP.Fischer | 42.63 |
+| 6 | AP.Becker | 44.88 |
+| 7 | AP.Schmidt | 48.95 |
+| 8 | AP.Hoffmann | 44.40 |
+| 9 | AP.Schulz | 38.98 |
+| 10 | AP.Koch | 40.30 |
+| 11 | BATCH.AUTO | 35.20 |
+| 12 | AP.Richter | 30.64 |
+| 13 | AP.Klein | 24.96 |
+| 14 | AP.Wolf | 28.08 |
+| 15 | AP.Neumann | 21.84 |
+| 16 | AP.Braun | 7.96 |
+| 17 | AP.Hartmann | 6.06 |
+| 18 | AP.Zimmermann | 3.20 |
+| 19 | AP.Krause | 0.63 |
+
+### Invoices per User
+Objective: measure workload distribution across users by invoice count and total value to identify concentration risk and capacity imbalances.
+
+```SQL
+SELECT
+    user_name,
+    COUNT(*) AS number_of_invoices,
+    ROUND(SUM(amount_local_curr) / 1.27, 2) AS total_amount
+FROM invoices_raw
+GROUP BY user_name
+ORDER BY number_of_invoices DESC;
+```
+**Results:**
+
+| # | User | Invoice Count | Total Amount (EUR) |
+| --- | --- | --- | --- |
+| 1 | AP.Weber | 7,535 | 40,267,194 |
+| 2 | AP.Schmidt | 7,240 | 46,349,818 |
+| 3 | AP.Johnson | 6,311 | 39,363,868 |
+| 4 | AP.Schulz | 5,301 | 27,255,100 |
+| 5 | BATCH.AUTO | 3,156 | 17,713,239 |
+| 6 | AP.Koch | 2,313 | 11,173,951 |
+| 7 | AP.Wolf | 2,250 | 11,096,952 |
+| 8 | AP.Hartmann | 2,224 | 199,118 |
+| 9 | AP.Neumann | 1,527 | 3,795,710 |
+| 10 | AP.Klein | 895 | 805,830 |
+| 11 | AP.Richter | 413 | 3,489,047 |
+| 12 | AP.Becker | 324 | 2,749,328 |
+| 13 | AP.Wagner | 348 | 171,978 |
+| 14 | AP.Fischer | 234 | 40,142,644 |
+| 15 | AP.Miller | 58 | 270,163 |
+| 16 | AP.Hoffmann | 47 | 643,647 |
+| 17 | AP.Zimmermann | 12 | 3,755 |
+| 18 | AP.Braun | 7 | 395,007 |
+| 19 | AP.Krause | 4 | 18,960 |
+
+
+### Combined View
+Objective: cross-reference processing time with volume and value to distinguish high-volume efficient processors from low-volume slow processors.
+
+```SQL
+WITH processing_times AS (
+    SELECT
+        user_name,
+        ROUND(AVG(clearing_date - posting_date), 2) AS avg_processing_time
+    FROM invoices_raw
+    WHERE clearing_date IS NOT NULL AND posting_date IS NOT NULL
+    GROUP BY user_name
+), processing_amounts AS (
+    SELECT
+    user_name,
+    COUNT(*) AS number_of_invoices,
+    ROUND(SUM(amount_local_curr) / 1.27, 2) AS total_amount
+FROM invoices_raw
+GROUP BY user_name
+)
+select
+    pt.user_name,
+    pt.avg_processing_time,
+    pa.number_of_invoices,
+    pa.total_amount
+from processing_times pt
+join processing_amounts pa on pt.user_name = pa.user_name
+order by pa.total_amount ASC
+LIMIT 15;
+```
+
+**Results:**
+
+| # | User | Avg. Processing Time (days) | Invoice Count | Total Amount (EUR) |
+| --- | --- | --- | --- | --- |
+| 1 | AP.Schmidt | 45.59 | 7,493 | 40,845,271 | high volume, slow |
+| 2 | AP.Weber | 44.33 | 7,048 | 43,172,785 | high volume, slow |
+| 3 | AP.Neumann | 25.66 | 1,299 | 49,356,513 | high value, moderate time |
+| 4 | AP.Johnson | 48.78 | 7,029 | 37,979,099 | high volume, slow |
+| 5 | AP.Schulz | 41.71 | 6,086 | 26,515,429 | high volume, slow |
+| 6 | BATCH.AUTO | 33.78 | 2,835 | 19,464,858 | |
+| 7 | AP.Wolf | 27.87 | 2,354 | 13,096,560 | |
+| 8 | AP.Koch | 39.86 | 1,945 | 9,970,539 | |
+| 9 | AP.Richter | 30.12 | 411 | 3,064,810 | |
+| 10 | AP.Becker | 24.85 | 323 | 3,070,027 | |
+| 11 | AP.Miller | 115.36 | 62 | 248,166 | low volume, very slow |
+| 12 | AP.Hartmann | 6.51 | 1,944 | 177,372 | high volume, fast |
+| 13 | AP.Wagner | 66.46 | 298 | 156,169 | low volume, very slow |
+| 14 | AP.Krause | 0.61 | 4 | 16,672 | |
+| 15 | AP.Zimmermann | 3.00 | 11 | 4,159 | |
+
+>AP.Miller and AP.Wagner process very few invoices but have the highest average processing times (115 and 66 days). AP.Schmidt, AP.Weber, and AP.Johnson handle the largest volumes but average 44-49 days processing time, suggesting a systemic delay rather than individual performance issues. AP.Hartmann processes nearly 2,000 invoices at 6.5 days average, which is the benchmark for efficiency in this dataset.
+
+
+
+## 5. Area of Analysis: Risk analysis
+This section assesses supplier base risk across two dimensions: spend concentration among the top 20 suppliers, and payment term structure to identify cash flow risk, processing pressure, and discount capture opportunities.
+
+### Spend Concentration
+Objective: quantify the share of total spend controlled by the top 20 suppliers to assess dependency risk and identify where strategic sourcing efforts would have the highest leverage.
+
+```SQL
+WITH total_spend AS (
+    SELECT SUM(amount_local_curr) AS total_year
+    FROM invoices_raw
+),
+top_ten_spend AS (
+    SELECT
+        id,
+        SUM(amount_local_curr) AS total_amount
+    FROM invoices_raw
+    GROUP BY id
+    ORDER BY total_amount ASC
+    LIMIT 20
+)
+SELECT
+    ROUND((SUM(total_amount) / total_year) * 100, 2) AS top20_pct_of_total_spend
+FROM top_ten_spend
+CROSS JOIN total_spend
+GROUP BY total_year;
+```
+**Results:**
+
+| Metric | Value |
+| --- | --- |
+| Top 20 suppliers % of total spend | 42.92% |
+
+
+
+### Payment Terms Distribution
+Objective: map the distribution of payment terms across transactions to identify dominant term types, flag operationally demanding terms such as immediate payment, and assess the overall maturity of the payment terms portfolio.
+
+```SQL
+SELECT
+    payment_terms.own_explanation,
+    COUNT(invoices_raw.terms_of_payment) AS count_of_payment_terms
+FROM invoices_raw
+LEFT JOIN payment_terms ON invoices_raw.terms_of_payment = payment_terms.pay_terms
+WHERE payment_terms.own_explanation IS NOT NULL
+GROUP BY payment_terms.own_explanation
+ORDER BY count_of_payment_terms DESC
+LIMIT 20;
+```
+
+**Results:**
+
+![Payment Terms Distribution]()
+
+>Net 30 and Net 60 together account for the large majority of transactions. The presence of "Due immediately" as the 3rd largest term warrants review, as it puts pressure on AP processing speed. Only two terms in the top 20 carry a discount clause, indicating limited early payment discount utilization across the portfolio.
+
+# Conclusions
+
+## Key Findings
+
+| # | Area | Finding |
+| --- | --- | --- |
+| 1 | Spend Concentration | Top 20 suppliers represent 41.8% of total annual spend (329M EUR). The top supplier alone accounts for 6.06% of total spend. |
+| 2 | Invoice Processing | Three users (AP.Schmidt, AP.Weber, AP.Johnson) handle over 20,000 invoices collectively, each averaging 44-49 days processing time. |
+| 3 | Late Payments | 20 suppliers show negative avg_delay, with the top 3 averaging 44 days late. No suppliers were identified as consistently paid early. |
+| 4 | Payment Terms Fragmentation | 59 distinct payment term codes exist across the supplier base. Only 3 codes cover 48.8% of suppliers. |
+| 5 | Discount Utilization | Only 2 of the top 20 payment terms carry a discount clause. Discount capture is occurring but is not systematically tracked. |
+| 6 | Currency Exposure | 18.2% of spend is HUF-denominated and 2.2% USD-denominated, creating FX risk without evidence of hedging. |
+| 7 | Spend Seasonality | July (12.0%) and September (10.4%) are peak spend months. August drops to 5.6%, indicating a seasonal shutdown effect. |
+
+---
+
+## Risk Summary
+
+| Risk | Severity | Area |
+| --- | --- | --- |
+| Supplier dependency on top 5 (18.06% of spend) | High | Concentration |
+| 20 suppliers receiving late payments | High | Payment discipline |
+| AP.Miller processing at 132 days average | Medium | Invoice processing |
+| 59 payment term codes, difficult to govern | Medium | Payment terms |
+| HUF exposure without indexation review | Medium | FX risk |
+| Low discount clause coverage in payment terms | Low | Savings |
+| Single-user concentration: AP.Weber handles 7,535 invoices | Low | Operational risk |
+
+---
+
+## Savings Potential Estimate
+
+| Opportunity | Basis | Estimated Annual Saving |
+| --- | --- | --- |
+| Early payment discount capture on eligible terms | 2-4% discount on transactions with discount-eligible terms currently not captured | 250,000 - 600,000 EUR |
+| Payment terms consolidation (reduced admin cost) | Reduction from 59 to 8 standard codes, estimated 15 min saved per non-standard term invoice | 40,000 - 80,000 EUR |
+| Strategic renegotiation with top 5 suppliers | 1-2% price reduction on 58M EUR combined spend through volume leverage | 580,000 - 1,160,000 EUR |
+| FX hedging or HUF contract indexation | Reduce volatility on 47M EUR HUF spend; estimated 1-2% exposure mitigation | 470,000 - 940,000 EUR |
+
+> **Total estimated savings range: 1,340,000 - 2,780,000 EUR per year.** These are conservative estimates based on industry benchmarks and the spend volumes identified in this analysis. Actual savings are subject to supplier negotiation outcomes and process change feasibility.
+
+---
+
+## Actionable Recommendations
+
+| Priority | Recommendation | Owner | Effort |
+| --- | --- | --- | --- |
+| 1 | Initiate strategic review with top 5 suppliers; target volume-based price renegotiation | Strategic Sourcing | High |
+| 2 | Investigate root cause of late payments for the 3 most delayed suppliers (avg 40+ days) | AP / Finance | Low |
+| 3 | Consolidate payment term codes from 59 to a maximum of 8 standard codes | Procurement / ERP team | Medium |
+| 4 | Implement systematic early payment discount tracking and capture process | AP / Treasury | Medium |
+| 5 | Review HUF-denominated contracts for indexation clauses or hedging eligibility | Finance / Treasury | Medium |
+| 6 | Address AP.Miller and AP.Wagner processing time outliers (115 and 66 days avg) | AP Manager | Low |
+| 7 | Evaluate blanket order or framework agreement for Pinewood Process Industries (1,142 invoices at 496 EUR avg) | Procurement | Low |
+
+---
+
+## Next Steps / Roadmap
+
+| Timeline | Action |
+| --- | --- |
+| 0-30 days | Pull full discount eligibility report; identify all transactions where discount window was available but not captured |
+| 0-30 days | Schedule review meeting with AP manager on processing time outliers |
+| 30-60 days | Begin payment term consolidation mapping; draft standard term framework |
+| 30-90 days | Initiate supplier reviews with top 5 by spend; prepare negotiation briefs |
+| 60-90 days | Review all HUF contracts above 1M EUR for indexation or hedging options |
+| 90-180 days | Implement consolidated payment term structure in ERP |
+| 90-180 days | Establish quarterly supplier performance scorecard based on metrics in this analysis |
